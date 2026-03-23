@@ -1,0 +1,6 @@
+# Python packages used by the OpenCV nodes.
+# ROS packages are installed separately with apt/catkin.
+
+opencv-python>=4.5.0
+numpy>=1.19.0
+pyyaml>=5.4.0

@@ -1,0 +1,11 @@
+# Red ball HSV detection parameters.
+
+lower_red1: [0, 100, 100]
+upper_red1: [10, 255, 255]
+lower_red2: [160, 100, 100]
+upper_red2: [180, 255, 255]
+
+erode: 2
+dilate: 2
+min_radius: 10
+min_area: 100

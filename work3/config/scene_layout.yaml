@@ -1,0 +1,6 @@
+# Legacy placeholder.
+#
+# The old turtlesim scene-based control flow is no longer used by work3.
+# The active configuration files are:
+#   - config/hsv_red_range.yaml
+#   - config/control_params.yaml

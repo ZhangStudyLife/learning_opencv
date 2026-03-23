@@ -1,0 +1,12 @@
+# Shared control parameters for the mecanum controller and monitor.
+
+max_linear_speed: 1.0
+deadzone_x: 0.12
+deadzone_y: 0.12
+lost_timeout: 0.35
+smoothing_alpha: 0.25
+publish_rate: 30.0
+refresh_rate: 30.0
+frame_width: 640
+frame_height: 480
+mouse_ball_radius: 24

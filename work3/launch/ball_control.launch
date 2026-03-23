@@ -1,0 +1,33 @@
+<launch>
+  <arg name="input_mode" default="video" doc="Input source: video or mouse"/>
+  <arg name="video_file" default="$(find work3)/test_video.mp4" doc="Video file for red ball detection"/>
+  <arg name="camera_id" default="0" doc="Camera index when video_file is empty"/>
+  <arg name="show_monitor_window" default="true" doc="Show the OpenCV monitor window"/>
+
+  <node name="ball_detector" pkg="work3" type="ball_detector.py" output="screen">
+    <rosparam command="load" file="$(find work3)/config/hsv_red_range.yaml"/>
+    <rosparam command="load" file="$(find work3)/config/control_params.yaml"/>
+    <param name="input_mode" value="$(arg input_mode)"/>
+    <param name="camera_id" value="$(arg camera_id)"/>
+    <param name="video_path" value="$(arg video_file)"/>
+  </node>
+
+  <node name="mecanum_controller" pkg="work3" type="mecanum_controller.py" output="screen">
+    <rosparam command="load" file="$(find work3)/config/control_params.yaml"/>
+  </node>
+
+  <node
+    name="mecanum_visualizer"
+    pkg="work3"
+    type="mecanum_visualizer.py"
+    output="screen"
+    required="true"
+    if="$(arg show_monitor_window)">
+    <rosparam command="load" file="$(find work3)/config/control_params.yaml"/>
+    <param name="input_mode" value="$(arg input_mode)"/>
+    <param name="wheel_radius" value="0.08"/>
+    <param name="wheel_base_length" value="0.5"/>
+    <param name="wheel_base_width" value="0.4"/>
+    <param name="max_wheel_speed" value="15.0"/>
+  </node>
+</launch>
