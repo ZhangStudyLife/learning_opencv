@@ -1,0 +1,32 @@
+<launch>
+  <arg name="run_ball_motion" default="true"/>
+  <arg name="run_tracker" default="true"/>
+  <arg name="run_chase" default="true"/>
+  <arg name="run_sd_color_relay" default="true"/>
+
+  <arg name="hd_color_topic" default="/kinect2/hd/image_color_rect"/>
+  <arg name="sd_color_topic" default="/kinect2/sd/image_color_rect"/>
+
+  <arg name="tracker_config" default="$(find work4)/config/work4_tracker.yaml"/>
+  <arg name="chase_config" default="$(find work4)/config/work4_chase.yaml"/>
+  <arg name="motion_config" default="$(find work4)/config/work4_ball_motion.yaml"/>
+
+    <node if="$(arg run_sd_color_relay)"
+      name="image_color_rect_relay"
+      pkg="topic_tools"
+      type="relay"
+      args="$(arg hd_color_topic) $(arg sd_color_topic)"
+      output="screen"/>
+
+  <node if="$(arg run_ball_motion)" name="move_ball_random" pkg="work4" type="move_ball_random.py" output="screen">
+    <rosparam command="load" file="$(arg motion_config)"/>
+  </node>
+
+  <node if="$(arg run_tracker)" name="kinect_color_tracker" pkg="work4" type="kinect_color_tracker.py" output="screen">
+    <rosparam command="load" file="$(arg tracker_config)"/>
+  </node>
+
+  <node if="$(arg run_chase)" name="ball_chase_controller" pkg="work4" type="ball_chase_controller.py" output="screen">
+    <rosparam command="load" file="$(arg chase_config)"/>
+  </node>
+</launch>
