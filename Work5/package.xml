@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>work4</name>
+  <version>0.1.0</version>
+  <description>Work4 ROS package for ball motion, color tracking, and chase control in Gazebo.</description>
+
+  <maintainer email="student@example.com">Student</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cv_bridge</depend>
+
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+</package>
