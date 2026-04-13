@@ -1,0 +1,11 @@
+<launch>
+  <arg name="config" default="$(find image_pkg)/config/face_capture.yaml"/>
+  <arg name="save_dir" default="$(find image_pkg)/output/face_capture"/>
+  <arg name="image_topic" default="auto"/>
+
+  <node name="face_capture_node" pkg="image_pkg" type="face_capture_node.py" output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+    <param name="save_dir" value="$(arg save_dir)"/>
+    <param name="image_topic" value="$(arg image_topic)"/>
+  </node>
+</launch>

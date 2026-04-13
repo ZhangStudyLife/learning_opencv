@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>work4</name>
+  <name>image_pkg</name>
   <version>0.1.0</version>
-  <description>Work4 ROS package for ball motion, color tracking, and chase control in Gazebo.</description>
+  <description>Image processing package for Work5 ball tracking, following, and face capture demos.</description>
 
   <maintainer email="student@example.com">Student</maintainer>
   <license>MIT</license>

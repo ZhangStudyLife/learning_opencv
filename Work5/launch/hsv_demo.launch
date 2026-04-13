@@ -1,0 +1,9 @@
+<launch>
+  <arg name="config" default="$(find image_pkg)/config/hsv_green_ball.yaml"/>
+  <arg name="image_topic" default="auto"/>
+
+  <node name="hsv_node" pkg="image_pkg" type="hsv_node.py" output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+    <param name="image_topic" value="$(arg image_topic)"/>
+  </node>
+</launch>

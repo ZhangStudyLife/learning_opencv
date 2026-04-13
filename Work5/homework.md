@@ -1,26 +1,143 @@
-在机器人足球场仿真场景中，一台搭载 Kinect2 深度相机的移动机器人需要实现对场景内彩色小球的自主识别、定位与追踪运动。请参考课件内容，完成工作空间搭建、仿真环境部署、节点编程、话题通信、视觉图像处理与运动控制等流程，最终实现机器人可以自主运动、指定颜色小球也可以自主运动的功能。
+# Work5 作业说明
 
-二、实验环境与工具* wpr_simulation 机器人仿真功能包
+## 1. 作业目标
 
-* Kinect2 相机驱动
-* 三、任务要求
+在机器人足球场仿真环境中，完成以下三项视觉任务：
 
-任务 1：ROS 工作空间与仿真环境搭建1. 创建 catkin 工作空间，完成编译与环境变量配置。
+1. 基于 HSV 阈值分割识别指定颜色小球，并实时显示质心。
+2. 基于同一套 HSV 分割结果控制机器人跟随目标小球。
+3. 使用 Haar 级联检测人脸，控制机器人对准并靠近目标，自动保存 3 张照片。
 
-1. 下载 `wpr_simulation`、`wpb_home`、`waterplus_map_tools` 源码包。
-2. 执行依赖安装脚本，完成环境配置。
-3. 编译工作空间，解决编译错误。
+## 2. 包与目录约定
 
-任务 2：启动足球场仿真场景1. 启动带 Kinect2 相机与彩色小球的 Gazebo 仿真场景。
+- 目录名保持为 `Work5`
+- ROS 包名正式切换为 `image_pkg`
+- 不修改 `Work4`
+- 运行时统一使用 `rosrun image_pkg ...` 或 `roslaunch image_pkg ...`
 
-1. 使用 `rostopic list` 查看所有话题，记录 Kinect2 图像话题与小球速度话题。
-2. 使用 `rqt_graph` 查看节点与话题关系，写出核心节点（gazebo、kinect2）的功能。
+## 3. 当前实现内容
 
-任务 3：小球自动运动控制1. 编写 / 使用 `move_ball_random.py` 节点，实现小球随机运动功能。
+### 3.1 可执行节点
 
-1. 能够分别控制 red_ball、green_ball、blue_ball、orange_ball 运动。
-2. 理解小球速度话题格式（`Twist` 消息）。
+- `hsv_node.py`
+  - 默认订阅 `/kinect2/sd/image_color_rect`
+  - 完成 `BGR -> HSV -> inRange -> 开/闭运算 -> moments 质心计算`
+  - 提供 6 个 HSV 滑块
+  - 支持鼠标点击打印 HSV 取样值
+  - 显示原图、HSV 视图、Mask 结果
 
-任务 4：Kinect2 相机图像获取1. 订阅 Kinect2 标清彩色图像话题：`/kinect2/sd/image_color_rect`。
+- `follow_node.py`
+  - 直接订阅图像并在节点内部完成 HSV 分割
+  - 检测到目标时输出固定线速度和比例角速度
+  - 丢失目标时立即停止
+  - 调试画面叠加目标中心、图像中心线、偏差和当前速度
 
-1. 使用 `image_view` 查看实时相机画面。
+- `face_capture_node.py`
+  - 使用 OpenCV Haar 级联检测人脸
+  - 默认选择最大的人脸作为目标
+  - 按水平偏差比例转向，按人脸宽度决定是否继续前进
+  - 目标稳定进入中心区域后自动保存 3 张照片
+
+- `move_ball_random.py`
+  - 保留为辅助节点
+  - 可选在跟球演示时与 `follow_node.py` 一起启动
+
+### 3.2 配置文件
+
+- `config/hsv_green_ball.yaml`
+- `config/follow_green_ball.yaml`
+- `config/face_capture.yaml`
+- `config/ball_motion.yaml`
+
+### 3.3 Launch 入口
+
+- `launch/hsv_demo.launch`
+- `launch/follow_ball.launch`
+- `launch/face_capture.launch`
+
+## 4. 推荐验收流程
+
+### 4.1 构建
+
+```bash
+source /opt/ros/noetic/setup.bash
+cd /home/zyz/catkin_ws
+catkin_make
+source /home/zyz/catkin_ws/devel/setup.bash
+rospack find image_pkg
+```
+
+### 4.2 HSV 取球演示
+
+终端 1：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch wpr_simulation wpb_balls.launch
+```
+
+终端 2：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch image_pkg hsv_demo.launch
+```
+
+### 4.3 跟球演示
+
+终端 1：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch wpr_simulation wpb_balls.launch
+```
+
+终端 2：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch image_pkg follow_ball.launch run_ball_motion:=true
+```
+
+### 4.4 人脸拍照加分项
+
+终端 1：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch wpr_simulation wpb_single_face.launch
+```
+
+终端 2：
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /home/zyz/catkin_ws/devel/setup.bash
+roslaunch image_pkg face_capture.launch
+```
+
+## 5. 验收关注点
+
+- `hsv_node.py` 能看到实时原图、HSV 视图和 Mask 结果。
+- 目标存在时日志输出中心坐标；目标消失时明确提示未检测到。
+- `follow_node.py` 目标偏左/偏右时，角速度方向正确。
+- 目标接近图像中心时，角速度逐渐减小。
+- 丢失目标时 `/cmd_vel` 回到 0。
+- `face_capture_node.py` 能稳定框出最大人脸。
+- 机器人能朝人脸转向并适当前进。
+- 达到居中稳定条件后自动保存 3 张照片。
+
+## 6. 输出目录
+
+默认照片保存目录：
+
+```bash
+$(rospack find image_pkg)/output/face_capture
+```
+
+如需修改，可在 `face_capture.launch` 中覆盖 `save_dir` 参数。

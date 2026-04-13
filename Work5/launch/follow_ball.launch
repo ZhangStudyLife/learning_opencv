@@ -1,0 +1,15 @@
+<launch>
+  <arg name="config" default="$(find image_pkg)/config/follow_green_ball.yaml"/>
+  <arg name="run_ball_motion" default="false"/>
+  <arg name="motion_config" default="$(find image_pkg)/config/ball_motion.yaml"/>
+  <arg name="image_topic" default="auto"/>
+
+  <node if="$(arg run_ball_motion)" name="move_ball_random" pkg="image_pkg" type="move_ball_random.py" output="screen">
+    <rosparam command="load" file="$(arg motion_config)"/>
+  </node>
+
+  <node name="follow_node" pkg="image_pkg" type="follow_node.py" output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+    <param name="image_topic" value="$(arg image_topic)"/>
+  </node>
+</launch>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(work4)
+project(image_pkg)
 
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
@@ -15,11 +15,17 @@ catkin_package(
 
 catkin_install_python(PROGRAMS
   src/move_ball_random.py
-  src/kinect_color_tracker.py
-  src/ball_chase_controller.py
+  src/hsv_node.py
+  src/follow_node.py
+  src/face_capture_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY launch config doc
+install(FILES
+  src/image_pkg_common.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch config doc output
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

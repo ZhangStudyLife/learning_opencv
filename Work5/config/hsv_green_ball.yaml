@@ -1,0 +1,20 @@
+image_topic: "auto"
+image_topic_candidates:
+  - "/kinect2/qhd/image_color_rect"
+  - "/kinect2/hd/image_color_rect"
+  - "/kinect2/sd/image_color_rect"
+topic_probe_timeout: 1.5
+show_windows: true
+log_interval: 1.0
+
+h_min: 35
+h_max: 85
+s_min: 80
+s_max: 255
+v_min: 60
+v_max: 255
+
+open_kernel: 5
+close_kernel: 5
+min_white_pixels: 400
+crosshair_size: 20

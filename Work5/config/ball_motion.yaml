@@ -7,7 +7,7 @@ max_linear_y: 0.45
 max_angular_z: 1.2
 
 ball_topics:
-  red_ball: "red_ball_vel"
-  green_ball: "green_ball_vel"
-  blue_ball: "blue_ball_vel"
-  orange_ball: "orange_ball_vel"
+  red_ball: "/red_ball_vel"
+  green_ball: "/green_ball_vel"
+  blue_ball: "/blue_ball_vel"
+  orange_ball: "/orange_ball_vel"

@@ -1,0 +1,26 @@
+image_topic: "auto"
+image_topic_candidates:
+  - "/kinect2/qhd/image_color_rect"
+  - "/kinect2/hd/image_color_rect"
+  - "/kinect2/sd/image_color_rect"
+topic_probe_timeout: 1.5
+cmd_topic: "/cmd_vel"
+show_windows: true
+log_interval: 1.0
+
+scale_factor: 1.1
+min_neighbors: 5
+min_face_size: 60
+
+linear_x: 0.12
+kp_angular: 1.2
+max_angular_z: 0.8
+center_deadband: 0.03
+center_tolerance: 0.08
+target_face_width: 180
+capture_face_width: 150
+
+capture_count: 3
+capture_interval: 1.0
+stable_duration: 0.8
+save_prefix: "face_capture"
