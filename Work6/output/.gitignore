@@ -1,0 +1,3 @@
+logs/
+pointcloud/*.pcd
+!pointcloud/.gitkeep

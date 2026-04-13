@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find image_pkg)/launch/wpr_bottles.launch"/>
+  <include file="$(find image_pkg)/launch/work6_pointcloud.launch"/>
+  <include file="$(find image_pkg)/launch/work6_detection.launch"/>
+</launch>

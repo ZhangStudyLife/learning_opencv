@@ -1,0 +1,22 @@
+<launch>
+  <arg name="config" default="$(find image_pkg)/config/pointcloud.yaml"/>
+  <arg name="use_color_cloud" default="true"/>
+  <arg name="pcd_output_path" default="$(find image_pkg)/output/pointcloud/output_cloud.pcd"/>
+
+  <node unless="$(arg use_color_cloud)"
+        name="get_pointcloud"
+        pkg="image_pkg"
+        type="get_pointcloud.py"
+        output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+  </node>
+
+  <node if="$(arg use_color_cloud)"
+        name="get_pointcloud3"
+        pkg="image_pkg"
+        type="get_pointcloud3.py"
+        output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+    <param name="pcd_output_path" value="$(arg pcd_output_path)"/>
+  </node>
+</launch>

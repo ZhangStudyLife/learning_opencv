@@ -1,0 +1,5 @@
+depth_topic: /kinect2/sd/image_depth_rect
+publish_rate: 10.0
+min_valid_mm: 100
+max_valid_mm: 10000
+fallback_distance_m: 0.85

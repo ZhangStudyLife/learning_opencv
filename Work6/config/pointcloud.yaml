@@ -1,0 +1,12 @@
+rgb_topic: /kinect2/hd/image_color_rect
+depth_topic: /kinect2/sd/image_depth_rect
+camera_info_topic: /kinect2/sd/camera_info
+pointcloud_topic: /pointcloud_output
+frame_id: kinect2_camera_frame
+publish_rate: 10.0
+step: 4
+min_depth_mm: 100
+max_depth_mm: 5000
+pcd_output_path: output/pointcloud/output_cloud.pcd
+save_on_shutdown: true
+log_interval: 2.0

@@ -1,0 +1,18 @@
+<launch>
+  <arg name="nearest_config" default="$(find image_pkg)/config/nearest_obstacle.yaml"/>
+  <arg name="red_bottle_config" default="$(find image_pkg)/config/red_bottle.yaml"/>
+
+  <node name="nearest_obstacle_final"
+        pkg="image_pkg"
+        type="nearest_obstacle_final.py"
+        output="screen">
+    <rosparam command="load" file="$(arg nearest_config)"/>
+  </node>
+
+  <node name="red_bottle_smart"
+        pkg="image_pkg"
+        type="red_bottle_smart.py"
+        output="screen">
+    <rosparam command="load" file="$(arg red_bottle_config)"/>
+  </node>
+</launch>
