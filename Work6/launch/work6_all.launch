@@ -4,7 +4,6 @@
 
   <include file="$(find image_pkg)/launch/wpr_bottles.launch"/>
   <include file="$(find image_pkg)/launch/work6_pointcloud.launch"/>
-  <include file="$(find image_pkg)/launch/work6_detection.launch"/>
 
   <include if="$(arg run_rviz)" file="$(find image_pkg)/launch/work6_rviz.launch">
     <arg name="rviz_config" value="$(arg rviz_config)"/>
